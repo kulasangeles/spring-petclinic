@@ -61,72 +61,72 @@ class PetControllerTests {
 		PetType cat = new PetType();
 		cat.setId(3);
 		cat.setName("hamster");
-		given(this.owners.findPetTypes()).willReturn(Lists.newArrayList(cat));
+		BDDMockito.given(this.owners.findPetTypes()).willReturn(Lists.newArrayList(cat));
 		Owner owner = new Owner();
 		Pet pet = new Pet();
 		owner.addPet(pet);
 		pet.setId(TEST_PET_ID);
-		given(this.owners.findById(TEST_OWNER_ID)).willReturn(owner);
+		BDDMockito.given(this.owners.findById(TEST_OWNER_ID)).willReturn(owner);
 	}
 
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/owners/{ownerId}/pets/new", TEST_OWNER_ID))
-			.andExpect(status().isOk())
-			.andExpect(view().name("pets/createOrUpdatePetForm"))
-			.andExpect(model().attributeExists("pet"));
+		mockMvc.perform(MockMvcRequestBuilders.get("/owners/{ownerId}/pets/new", TEST_OWNER_ID))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.view().name("pets/createOrUpdatePetForm"))
+			.andExpect(MockMvcResultMatchers.model().attributeExists("pet"));
 	}
 
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc
-			.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID).param("name", "Betty")
+			.perform(MockMvcRequestBuilders.post("/owners/{ownerId}/pets/new", TEST_OWNER_ID).param("name", "Betty")
 				.param("type", "hamster")
 				.param("birthDate", "2015-02-12"))
-			.andExpect(status().is3xxRedirection())
-			.andExpect(view().name("redirect:/owners/{ownerId}"));
+			.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+			.andExpect(MockMvcResultMatchers.view().name("redirect:/owners/{ownerId}"));
 	}
 
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
 		mockMvc
-			.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID).param("name", "Betty")
+			.perform(MockMvcRequestBuilders.post("/owners/{ownerId}/pets/new", TEST_OWNER_ID).param("name", "Betty")
 				.param("birthDate", "2015-02-12"))
-			.andExpect(model().attributeHasNoErrors("owner"))
-			.andExpect(model().attributeHasErrors("pet"))
-			.andExpect(model().attributeHasFieldErrors("pet", "type"))
-			.andExpect(model().attributeHasFieldErrorCode("pet", "type", "required"))
-			.andExpect(status().isOk())
-			.andExpect(view().name("pets/createOrUpdatePetForm"));
+			.andExpect(MockMvcResultMatchers.model().attributeHasNoErrors("owner"))
+			.andExpect(MockMvcResultMatchers.model().attributeHasErrors("pet"))
+			.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("pet", "type"))
+			.andExpect(MockMvcResultMatchers.model().attributeHasFieldErrorCode("pet", "type", "required"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.view().name("pets/createOrUpdatePetForm"));
 	}
 
 	@Test
 	void testInitUpdateForm() throws Exception {
-		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID))
-			.andExpect(status().isOk())
-			.andExpect(model().attributeExists("pet"))
-			.andExpect(view().name("pets/createOrUpdatePetForm"));
+		mockMvc.perform(MockMvcRequestBuilders.get("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.model().attributeExists("pet"))
+			.andExpect(MockMvcResultMatchers.view().name("pets/createOrUpdatePetForm"));
 	}
 
 	@Test
 	void testProcessUpdateFormSuccess() throws Exception {
 		mockMvc
-			.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID).param("name", "Betty")
+			.perform(MockMvcRequestBuilders.post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID).param("name", "Betty")
 				.param("type", "hamster")
 				.param("birthDate", "2015-02-12"))
-			.andExpect(status().is3xxRedirection())
-			.andExpect(view().name("redirect:/owners/{ownerId}"));
+			.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+			.andExpect(MockMvcResultMatchers.view().name("redirect:/owners/{ownerId}"));
 	}
 
 	@Test
 	void testProcessUpdateFormHasErrors() throws Exception {
 		mockMvc
-			.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID).param("name", "Betty")
+			.perform(MockMvcRequestBuilders.post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID).param("name", "Betty")
 				.param("birthDate", "2015/02/12"))
-			.andExpect(model().attributeHasNoErrors("owner"))
-			.andExpect(model().attributeHasErrors("pet"))
-			.andExpect(status().isOk())
-			.andExpect(view().name("pets/createOrUpdatePetForm"));
+			.andExpect(MockMvcResultMatchers.model().attributeHasNoErrors("owner"))
+			.andExpect(MockMvcResultMatchers.model().attributeHasErrors("pet"))
+			.andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.view().name("pets/createOrUpdatePetForm"));
 	}
 
 }

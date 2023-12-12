@@ -57,19 +57,19 @@ class PetTypeFormatterTests {
 		PetType petType = new PetType();
 		petType.setName("Hamster");
 		String petTypeName = this.petTypeFormatter.print(petType, Locale.ENGLISH);
-		assertThat(petTypeName).isEqualTo("Hamster");
+		Assertions.assertThat(petTypeName).isEqualTo("Hamster");
 	}
 
 	@Test
 	void shouldParse() throws ParseException {
-		given(this.pets.findPetTypes()).willReturn(makePetTypes());
+		BDDMockito.given(this.pets.findPetTypes()).willReturn(makePetTypes());
 		PetType petType = petTypeFormatter.parse("Bird", Locale.ENGLISH);
-		assertThat(petType.getName()).isEqualTo("Bird");
+		Assertions.assertThat(petType.getName()).isEqualTo("Bird");
 	}
 
 	@Test
 	void shouldThrowParseException() throws ParseException {
-		given(this.pets.findPetTypes()).willReturn(makePetTypes());
+		BDDMockito.given(this.pets.findPetTypes()).willReturn(makePetTypes());
 		Assertions.assertThrows(ParseException.class, () -> {
 			petTypeFormatter.parse("Fish", Locale.ENGLISH);
 		});

@@ -84,19 +84,19 @@ class ClinicServiceTests {
 	@Test
 	void shouldFindOwnersByLastName() {
 		Page<Owner> owners = this.owners.findByLastName("Davis", pageable);
-		assertThat(owners).hasSize(2);
+		Assertions.assertThat(owners).hasSize(2);
 
 		owners = this.owners.findByLastName("Daviss", pageable);
-		assertThat(owners).isEmpty();
+		Assertions.assertThat(owners).isEmpty();
 	}
 
 	@Test
 	void shouldFindSingleOwnerWithPet() {
 		Owner owner = this.owners.findById(1);
-		assertThat(owner.getLastName()).startsWith("Franklin");
-		assertThat(owner.getPets()).hasSize(1);
-		assertThat(owner.getPets().get(0).getType()).isNotNull();
-		assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("cat");
+		Assertions.assertThat(owner.getLastName()).startsWith("Franklin");
+		Assertions.assertThat(owner.getPets()).hasSize(1);
+		Assertions.assertThat(owner.getPets().get(0).getType()).isNotNull();
+		Assertions.assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("cat");
 	}
 
 	@Test
@@ -112,10 +112,10 @@ class ClinicServiceTests {
 		owner.setCity("Wollongong");
 		owner.setTelephone("4444444444");
 		this.owners.save(owner);
-		assertThat(owner.getId().longValue()).isNotEqualTo(0);
+		Assertions.assertThat(owner.getId().longValue()).isNotEqualTo(0);
 
 		owners = this.owners.findByLastName("Schultz", pageable);
-		assertThat(owners.getTotalElements()).isEqualTo(found + 1);
+		Assertions.assertThat(owners.getTotalElements()).isEqualTo(found + 1);
 	}
 
 	@Test
@@ -130,7 +130,7 @@ class ClinicServiceTests {
 
 		// retrieving new name from database
 		owner = this.owners.findById(1);
-		assertThat(owner.getLastName()).isEqualTo(newLastName);
+		Assertions.assertThat(owner.getLastName()).isEqualTo(newLastName);
 	}
 
 	@Test
@@ -138,9 +138,9 @@ class ClinicServiceTests {
 		Collection<PetType> petTypes = this.owners.findPetTypes();
 
 		PetType petType1 = EntityUtils.getById(petTypes, PetType.class, 1);
-		assertThat(petType1.getName()).isEqualTo("cat");
+		Assertions.assertThat(petType1.getName()).isEqualTo("cat");
 		PetType petType4 = EntityUtils.getById(petTypes, PetType.class, 4);
-		assertThat(petType4.getName()).isEqualTo("snake");
+		Assertions.assertThat(petType4.getName()).isEqualTo("snake");
 	}
 
 	@Test
@@ -155,15 +155,15 @@ class ClinicServiceTests {
 		pet.setType(EntityUtils.getById(types, PetType.class, 2));
 		pet.setBirthDate(LocalDate.now());
 		owner6.addPet(pet);
-		assertThat(owner6.getPets().size()).isEqualTo(found + 1);
+		Assertions.assertThat(owner6.getPets().size()).isEqualTo(found + 1);
 
 		this.owners.save(owner6);
 
 		owner6 = this.owners.findById(6);
-		assertThat(owner6.getPets().size()).isEqualTo(found + 1);
+		Assertions.assertThat(owner6.getPets().size()).isEqualTo(found + 1);
 		// checks that id has been generated
 		pet = owner6.getPet("bowser");
-		assertThat(pet.getId()).isNotNull();
+		Assertions.assertThat(pet.getId()).isNotNull();
 	}
 
 	@Test
@@ -179,7 +179,7 @@ class ClinicServiceTests {
 
 		owner6 = this.owners.findById(6);
 		pet7 = owner6.getPet(7);
-		assertThat(pet7.getName()).isEqualTo(newName);
+		Assertions.assertThat(pet7.getName()).isEqualTo(newName);
 	}
 
 	@Test
@@ -187,10 +187,10 @@ class ClinicServiceTests {
 		Collection<Vet> vets = this.vets.findAll();
 
 		Vet vet = EntityUtils.getById(vets, Vet.class, 3);
-		assertThat(vet.getLastName()).isEqualTo("Douglas");
-		assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
-		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
-		assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("surgery");
+		Assertions.assertThat(vet.getLastName()).isEqualTo("Douglas");
+		Assertions.assertThat(vet.getNrOfSpecialties()).isEqualTo(2);
+		Assertions.assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
+		Assertions.assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("surgery");
 	}
 
 	@Test
@@ -207,7 +207,7 @@ class ClinicServiceTests {
 
 		owner6 = this.owners.findById(6);
 
-		assertThat(pet7.getVisits()) //
+		Assertions.assertThat(pet7.getVisits()) //
 			.hasSize(found + 1) //
 			.allMatch(value -> value.getId() != null);
 	}
@@ -218,7 +218,7 @@ class ClinicServiceTests {
 		Pet pet7 = owner6.getPet(7);
 		Collection<Visit> visits = pet7.getVisits();
 
-		assertThat(visits) //
+		Assertions.assertThat(visits) //
 			.hasSize(2) //
 			.element(0)
 			.extracting(Visit::getDate)

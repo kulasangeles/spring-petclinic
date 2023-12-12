@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://maven.apache.org/POM/4.0.0"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.springframework.samples</groupId>
   <artifactId>spring-petclinic</artifactId>
@@ -155,7 +155,8 @@
             <configuration>
               <rules>
                 <requireJavaVersion>
-                  <message>This build requires at least Java ${java.version}, update your JVM, and run the build again</message>
+                  <message>This build requires at least Java ${java.version}, update your JVM, and run the build again
+                  </message>
                   <version>${java.version}</version>
                 </requireJavaVersion>
               </rules>
@@ -218,7 +219,7 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <executions>
           <execution>
-            <!-- Spring Boot Actuator displays build-related information 
+            <!-- Spring Boot Actuator displays build-related information
               if a META-INF/build-info.properties file is present -->
             <goals>
               <goal>build-info</goal>
@@ -245,11 +246,78 @@
             </goals>
           </execution>
           <execution>
-            <id>report</id>
-            <phase>prepare-package</phase>
+            <id>jacoco-unit-test-report</id>
+            <phase>post-integration-test</phase>
             <goals>
               <goal>report</goal>
             </goals>
+            <configuration>
+              <dataFile>${project.build.directory}/coverage-reports/jacoco-ut/jacoco-ut.exec</dataFile>
+              <outputDirectory>${project.build.directory}/coverage-reports/jacoco-ut</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>jacoco-sit-test-report</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <dataFile>${project.build.directory}/coverage-reports/jacoco-sit/jacoco-sit.exec</dataFile>
+              <outputDirectory>${project.build.directory}/coverage-reports/jacoco-sit</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>jacoco-aggregated-test-report</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <dataFile>${project.build.directory}/coverage-reports/jacoco-aggregated/jacoco-aggregated.exec</dataFile>
+              <outputDirectory>${project.build.directory}/coverage-reports/jacoco-aggregated</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>jacoco-dump</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>dump</goal>
+            </goals>
+            <configuration>
+              <destFile>${project.build.directory}/coverage-reports/jacoco-sit/jacoco-sit.exec</destFile>
+              <port>6300</port>
+            </configuration>
+          </execution>
+          <execution>
+            <id>jacoco-merge</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>merge</goal>
+            </goals>
+            <configuration>
+              <destFile>${project.build.directory}/coverage-reports/jacoco-aggregated/jacoco-aggregated.exec</destFile>
+              <fileSets>
+                <fileSet>
+                  <directory>${project.build.directory}/coverage-reports/jacoco-aggregated</directory>
+                  <excludes>
+                    <exclude>*.exec</exclude>
+                  </excludes>
+                </fileSet>
+                <fileSet>
+                  <directory>${project.build.directory}/coverage-reports/jacoco-ut</directory>
+                  <includes>
+                    <include>*.exec</include>
+                  </includes>
+                </fileSet>
+                <fileSet>
+                  <directory>${project.build.directory}/coverage-reports/jacoco-sit</directory>
+                  <includes>
+                    <include>*.exec</include>
+                  </includes>
+                </fileSet>
+              </fileSets>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -360,7 +428,8 @@
               <inputPath>${basedir}/src/main/scss/</inputPath>
               <outputPath>${basedir}/src/main/resources/static/resources/css/</outputPath>
               <includePath>
-                ${project.build.directory}/webjars/META-INF/resources/webjars/bootstrap/${webjars-bootstrap.version}/scss/</includePath>
+                ${project.build.directory}/webjars/META-INF/resources/webjars/bootstrap/${webjars-bootstrap.version}/scss/
+              </includePath>
             </configuration>
           </plugin>
         </plugins>
@@ -376,7 +445,7 @@
       <build>
         <pluginManagement>
           <plugins>
-            <!-- This plugin's configuration is used to store Eclipse m2e settings 
+            <!-- This plugin's configuration is used to store Eclipse m2e settings
               only. It has no influence on the Maven build itself. -->
             <plugin>
               <groupId>org.eclipse.m2e</groupId>
@@ -395,7 +464,7 @@
                         </goals>
                       </pluginExecutionFilter>
                       <action>
-                        <ignore />
+                        <ignore/>
                       </action>
                     </pluginExecution>
                     <pluginExecution>
@@ -408,7 +477,7 @@
                         </goals>
                       </pluginExecutionFilter>
                       <action>
-                        <ignore />
+                        <ignore/>
                       </action>
                     </pluginExecution>
                     <pluginExecution>
@@ -421,7 +490,7 @@
                         </goals>
                       </pluginExecutionFilter>
                       <action>
-                        <ignore />
+                        <ignore/>
                       </action>
                     </pluginExecution>
                   </pluginExecutions>
