@@ -19,7 +19,7 @@
 ./mvnw jacoco:report@jacoco-unit-test-report   
 ~~~
 
-## 2. Run the application and attach a javaagent
+## 3. Run the application and attach a javaagent
 * Look for the [PetClinicApplication.java](src%2Fmain%2Fjava%2Forg%2Fspringframework%2Fsamples%2Fpetclinic%2FPetClinicApplication.java), right click then run or alternatively create a run cofiguration then add this VM option to activate the jacoco listener
 ~~~
 -javaagent:./libs/jacocoagent.jar=output=tcpserver,address=*,port=6300
@@ -27,9 +27,9 @@
 * Run the application
 
 
-## 3. Run your automated tests or do manual exploratory actions
+## 4. Run your automated tests or do manual exploratory actions
 
-## 4. Run dump command
+## 5. Run dump command
 * Run this command in the terminal (while the app is running)
 ~~~
 ./mvnw jacoco:dump@jacoco-dump  
@@ -39,7 +39,7 @@
 ./mvnw jacoco:report@jacoco-sit-test-report   
 ~~~
 
-## 4. Run the merge command
+## 6. Run the merge command
 * Run this command in the terminal to merge the reports
 ~~~
 ./mvnw jacoco:merge@jacoco-merge
@@ -49,5 +49,5 @@
 ./mvnw jacoco:report@jacoco-aggregated-test-report   
 ~~~
 
-## 5. Validate aggregated report
+## 7. Validate aggregated report
 * Locate the aggregated report in /target/coverage-reports/jacoco-aggregated
